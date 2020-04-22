@@ -1,0 +1,12 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+mimo4x64/
+mimo8x8/
+mimo8x8/main.py
+models/
+
+channel_data*
+Harray*
+channel_rosslyn*
+
+channel_rosslyn60GHz.mat

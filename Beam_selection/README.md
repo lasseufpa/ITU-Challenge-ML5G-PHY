@@ -10,6 +10,7 @@ After generate the neural network files, move the files for this folder.
 # Install all used packages
 pip install numpy Keras h5py scikit-learn DateTime
 ``` 
+If **just** looking for the machine learning data, you can download directly [here](https://nextcloud.lasseufpa.org/s/zN5Yj956steYNHz)
 
 To run the neural network after already had the files, run the following command:
 

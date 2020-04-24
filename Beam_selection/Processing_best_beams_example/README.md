@@ -11,12 +11,12 @@ Download [Beams_output](https://nextcloud.lasseufpa.org/s/tPb4WmmJgS6gJaR).
 
 Download [csv_info_file](https://nextcloud.lasseufpa.org/s/afpG6qgmRPaJBfw).
 
-To run the processing after already had the files, run the following command:
-
 ```bash
 # Install all used packages
 pip install numpy
 ``` 
+
+To run the processing after already had the files, run the following command:
 
 ```bash
 python filterBeamsOutput.py csvInfoFile.csv indexOfTheAnalyzedUser

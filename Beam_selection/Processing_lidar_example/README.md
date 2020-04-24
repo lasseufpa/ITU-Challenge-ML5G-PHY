@@ -7,7 +7,7 @@ To process the lidar and beams files, download the following files:
 
 Download [PCD](https://nextcloud.lasseufpa.org/s/pwSk9CJnsZoK2ts).
 
-Download [Beams_output](https://nextcloud.lasseufpa.org/s/pwSk9CJnsZoK2ts).
+Download [Beams_output](https://nextcloud.lasseufpa.org/s/tPb4WmmJgS6gJaR).
 
 Download [csv_info_file](https://nextcloud.lasseufpa.org/s/afpG6qgmRPaJBfw).
 

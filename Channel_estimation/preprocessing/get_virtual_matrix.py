@@ -18,6 +18,7 @@ Ht = real_part[...] + img_part[...] * 1j
 # permute dimensions before reshape: scenes before episodes
 # found out np.moveaxis as alternative to permute in matlab
 Ht = Ht[~np.isnan(Ht).any(axis=3)]
+# Ht = Ht[Ht != 0]
 Ht = Ht.reshape((-1,1,10,64,64))
 
 n_episodes, n_scenes, n_receivers, n_r, n_t = Ht.shape
@@ -34,4 +35,4 @@ for i in range(reshape_dim):
     m = np.squeeze(Harray[i,:,:])
     Hvirtual[i,:,:] = scaling_factor * np.fft.fft2(m)
 
-savemat('../datasets/rosslyn60Ghz.mat', {'Harray': Harray, 'Hvirtual':Hvirtual})
+savemat('../dataset/rosslyn60Ghz.mat', {'Harray': Harray, 'Hvirtual':Hvirtual})

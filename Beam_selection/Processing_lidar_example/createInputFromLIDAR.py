@@ -35,12 +35,13 @@ def getInfo(filename,inputPath):
 
 
 #config variables
-filename = 'CoordVehiclesRxPerScene_s008.csv' #information file 
 argv = sys.argv
 print('Usage: python createInputFromLIDAR.py inputPath npz_name')
 inputPath = argv[1] #input (PCD) path/name
 npz_name = argv[2] #output path/name
-user = 3 #desired user
+filename = argv[3] #information file 
+user = int(argv[4]) #user you want to track
+
 numExamples,input_shape = getInfo(filename,inputPath) #extract useful information
 with open(filename) as csvfile:
     reader = csv.DictReader(csvfile)   

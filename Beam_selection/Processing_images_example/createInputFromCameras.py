@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import os
 import csv
-
+import sys
 
 def getInfo(filename, user):
     with open(filename) as csvfile:
@@ -21,7 +21,7 @@ def getInfo(filename, user):
         for row in reader:
             isValid = row['Val'] #V or I are the first element of the list thisLine
             valid_user = int(row['VehicleArrayID'])
-            if isValid == 'V':
+            if isValid == 'V': #check if the channel is valid
                 if valid_user == user:
                     numExamples = numExamples + 1
                     episode_i.append(int(row['EpisodeID']))
@@ -33,11 +33,13 @@ def getInfo(filename, user):
 
 working_directory = os.path.dirname(os.path.realpath(__file__)) 
 
+#config variables
+argv = sys.argv
+image_path = argv[1] #input (Camera images) path/name
+number_of_cameras = 3 #Number of cameras on Base station
+filename = argv[2] #information file
+user = int(argv[3]) #user you want to track
 
-image_path = os.path.join(working_directory, 'images')
-number_of_cameras = 3
-user = 3 #user you want to track
-filename = 'CoordVehiclesRxPerScene_s008.csv'
 
 
 numExamples,episode_list, scene_list, line_list = getInfo(filename, user)
@@ -58,12 +60,9 @@ for camera in range(1,number_of_cameras+1, 1):
             #img = cv2.imread('./0000.png', cv2.IMREAD_COLOR) #RGB
             #img = cv2.imread('./0000.png', cv2.IMREAD_UNCHANGED) 
             
-            print('Scene Frame Dimensions : ',img.shape)
+            print('Scene Frame: ',image_id, 'Camera:', camera)
             
-            scale_percent = 25 # percent of original size
-            width = int(img.shape[1] * scale_percent / 100)
-            height = int(img.shape[0] * scale_percent / 100)
-            dim = (200, 20)
+            dim = (200, 20) #same dimension of LIDAR PCD 
             # resize image
             resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
             
@@ -73,7 +72,7 @@ for camera in range(1,number_of_cameras+1, 1):
             cv2.destroyAllWindows()'''
             image_matrix_storage[storage, :,:] = resized
             storage =+ 1
-    print(image_matrix_storage.shape)
+    #print(image_matrix_storage.shape)
     np.savez(npz_name, image_matrix = image_matrix_storage)
     print('Saved file ', npz_name)
 

@@ -9,7 +9,6 @@ import csv
 import numpy as np
 import sys
 
-
 def getInfo(filename, user):
     with open(filename) as csvfile:
         reader = csv.DictReader(csvfile)
@@ -32,14 +31,15 @@ def getInfo(filename, user):
     return numExamples, episode_i, scene_i, line_i
 
 #config variables
-filename = 'CoordVehiclesRxPerScene_s008.csv' #information file 
-user = 3 #desired user
+argv = sys.argv
+filename = argv[1] #information file 
+user = int(argv[2]) #user you want to track
 npz_name = 'beams_output_user'+ str(user) + '.npz' #npz output name
 
 numExamples,episode_list, scene_list, line_list = getInfo(filename, user) #extract useful information
 
 
-BeamFileName = './beams_output.npz' #(11194, 26, 108) 
+BeamFileName = './beams_output.npz' 
 print("Reading dataset...", BeamFileName)
 beam_cache_file = np.load(BeamFileName)
 X_Beam = beam_cache_file['output_classification']

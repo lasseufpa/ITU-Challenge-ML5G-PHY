@@ -8,7 +8,7 @@ TRAIN_FILE_NAME = wget.download(URL)
 
 print(f'{TRAIN_FILE_NAME} was downloaded successfully!')
 
-URL = 'https://nextcloud.lasseufpa.org/s/GdXnSpLCHHytPP2/download'
-TEST_FILE_NAME = wget.download(URL)
+#URL = ''
+#TEST_FILE_NAME = wget.download(URL)
 
-print(f'{TEST_FILE_NAME} was downloaded successfully!')
+#print(f'{TEST_FILE_NAME} was downloaded successfully!')

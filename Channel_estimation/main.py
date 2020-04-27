@@ -99,11 +99,7 @@ if args.mode == "train" or args.mode == "trte":
 
 if args.mode == "test" or args.mode == "trte":
     model = keras.models.load_model(model_filepath)
-    # test with disjoint test set
-    test_dataset = h5py.File('dataset/test.hdf5', 'r')
-    # get rid of the last example in the training_generator's memory (flush it)
-    test_input, test_output = np.array(test_dataset['inputs']), np.array(test_dataset['outputs'])
-    test_dataset.close()
+    test_input, test_output = validation_input, validation_output
     # now get the actual examples:
     predicted_output = model.predict(test_input)
     error = test_output - predicted_output

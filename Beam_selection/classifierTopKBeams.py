@@ -199,141 +199,140 @@ print("Finished reading datasets")
 # declare model Convnet with two conv1D layers following by MaxPooling layer, and two dense layers
 # Dropout layer consists in randomly setting a fraction rate of input units to 0 at each update during training time, which helps prevent overfitting.
 
+NN = 50
+print('Running with NN = ', NN)
+model = Sequential()
 
-for NN in range(21, 100, 5):
-    print('Running with NN = ', NN)
-    model = Sequential()
+#model.add(Conv2D(24, kernel_size=(2, 2), activation='relu', padding='same', input_shape=(135,2)))
+#model.add(MaxPooling1D(3))
+#model.add(Conv2D(16, kernel_size=(2, 2), activation='relu', padding='same'))
+#model.add(MaxPooling1D(3))
+#model.add(Dropout(0.5))
+#model.add(Dense(8, activation='relu'))
+#model.add(Dropout(0.5))
+#model.add(Flatten())
+#model.add(Dense(numClasses, activation='softmax'))
 
-    #model.add(Conv2D(24, kernel_size=(2, 2), activation='relu', padding='same', input_shape=(135,2)))
-    #model.add(MaxPooling1D(3))
-    #model.add(Conv2D(16, kernel_size=(2, 2), activation='relu', padding='same'))
-    #model.add(MaxPooling1D(3))
-    #model.add(Dropout(0.5))
-    #model.add(Dense(8, activation='relu'))
-    #model.add(Dropout(0.5))
-    #model.add(Flatten())
-    #model.add(Dense(numClasses, activation='softmax'))
+#model.summary()
 
-    #model.summary()
+#model.add(Dense(1,input_shape=input_shape, activation='relu'))
+if True:
+    dropProb=0.3
+    model.add(Conv2D(NN, kernel_size=(13,13),
+                        activation='relu',
+                        #				 strides=[1,1],
+                        padding="SAME",
+                        input_shape=input_shape))
+    model.add(Conv2D(NN, (11, 11), padding="SAME", activation='relu'))
+    model.add(Conv2D(NN, (9, 9), padding="SAME", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 1)))
+    model.add(Dropout(dropProb))
+    model.add(Conv2D(2*NN, (7, 7), padding="SAME", activation='relu'))
+    #model.add(Dropout(dropProb))
+    model.add(MaxPooling2D(pool_size=(1, 2)))
+    model.add(Conv2D(4*NN, (5, 5), padding="SAME", activation='relu'))
+    model.add(Dropout(dropProb))
+    model.add(Conv2D(NN, (3, 3), padding="SAME", activation='relu'))
+    #model.add(Dropout(dropProb))
+    model.add(Conv2D(1, (1, 1), padding="SAME", activation='relu'))
+    #model.add(Dropout(dropProb))
+    model.add(Flatten())
+    model.add(Dense(numClasses, activation='softmax'))
+else:
+    dropProb=0.01
+    model.add(Dense(NN,
+                        activation='relu',
+                        #				 strides=[1,1],
+                        #				 padding="SAME",
+                        input_shape=input_shape))
+    model.add(Flatten())
+    model.add(Dense(NN, activation='relu'))
+    model.add(Dropout(dropProb))
+    #model.add(Dense(NN, activation='relu'))
+    #model.add(Dropout(dropProb))
+    model.add(Dense(NN, activation='relu'))
+    model.add(Dropout(dropProb))
+    model.add(Dense(numClasses, activation='softmax'))
 
-    #model.add(Dense(1,input_shape=input_shape, activation='relu'))
-    if True:
-        dropProb=0.3
-        model.add(Conv2D(NN, kernel_size=(13,13),
-                         activation='relu',
-                         #				 strides=[1,1],
-                         padding="SAME",
-                         input_shape=input_shape))
-        model.add(Conv2D(NN, (11, 11), padding="SAME", activation='relu'))
-        model.add(Conv2D(NN, (9, 9), padding="SAME", activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2, 1)))
-        model.add(Dropout(dropProb))
-        model.add(Conv2D(2*NN, (7, 7), padding="SAME", activation='relu'))
-        #model.add(Dropout(dropProb))
-        model.add(MaxPooling2D(pool_size=(1, 2)))
-        model.add(Conv2D(4*NN, (5, 5), padding="SAME", activation='relu'))
-        model.add(Dropout(dropProb))
-        model.add(Conv2D(NN, (3, 3), padding="SAME", activation='relu'))
-        #model.add(Dropout(dropProb))
-        model.add(Conv2D(1, (1, 1), padding="SAME", activation='relu'))
-        #model.add(Dropout(dropProb))
-        model.add(Flatten())
-        model.add(Dense(numClasses, activation='softmax'))
+#model.add(Conv2D(20, kernel_size=(16, 16),
+#                 activation='relu',
+#				 strides=[1,1],
+#				 padding="SAME",
+#                 input_shape=input_shape))
+#model.add(Conv2D(4, (6, 4), padding="SAME", activation='relu'))
+#model.add(Conv2D(16, (10, 2), padding="SAME", activation='relu'))
+#model.add(MaxPooling2D(pool_size=(4, 2)))
+#model.add(Dropout(0.5))
+#model.add(Flatten())
+#model.add(Dense(2, activation='relu'))
+#model.add(Dropout(0.5))
+#model.add(Dense(numClasses, activation='softmax'))
+
+model.summary()
+try: #to catch CTRL+C #AK-TODO NOT WORKING!
+    if False:
+        model.compile(loss=keras.losses.categorical_crossentropy,
+                        optimizer=keras.optimizers.Adadelta(),
+                        metrics=[metrics.categorical_accuracy])
     else:
-        dropProb=0.01
-        model.add(Dense(NN,
-                         activation='relu',
-                         #				 strides=[1,1],
-                         #				 padding="SAME",
-                         input_shape=input_shape))
-        model.add(Flatten())
-        model.add(Dense(NN, activation='relu'))
-        model.add(Dropout(dropProb))
-        #model.add(Dense(NN, activation='relu'))
-        #model.add(Dropout(dropProb))
-        model.add(Dense(NN, activation='relu'))
-        model.add(Dropout(dropProb))
-        model.add(Dense(numClasses, activation='softmax'))
+        model.compile(loss=keras.losses.categorical_crossentropy,
+                        optimizer=keras.optimizers.Adadelta(),
+                        metrics=[metrics.categorical_accuracy,
+                                #top_2_accuracy,
+                                #top_3_accuracy,
+                                #top_4_accuracy,
+                                metrics.top_k_categorical_accuracy,
+                                top_10_accuracy,
+                                #top_20_accuracy,
+                                top_30_accuracy,
+                                #top_40_accuracy,
+                                top_50_accuracy,
+                                top_100_accuracy
+                                ])
 
-    #model.add(Conv2D(20, kernel_size=(16, 16),
-    #                 activation='relu',
-    #				 strides=[1,1],
-    #				 padding="SAME",
-    #                 input_shape=input_shape))
-    #model.add(Conv2D(4, (6, 4), padding="SAME", activation='relu'))
-    #model.add(Conv2D(16, (10, 2), padding="SAME", activation='relu'))
-    #model.add(MaxPooling2D(pool_size=(4, 2)))
-    #model.add(Dropout(0.5))
-    #model.add(Flatten())
-    #model.add(Dense(2, activation='relu'))
-    #model.add(Dropout(0.5))
-    #model.add(Dense(numClasses, activation='softmax'))
+    # compile model.
+    #model.compile(loss='mean_squared_error',
+    #              optimizer=Adagrad(),
+    #              metrics=['accuracy','mae'])
+    history = model.fit(X_train, y_train,
+                        batch_size=batch_size,
+                        epochs=epochs,
+                        verbose=1,
+                        shuffle=True,
+                        #validation_split=validationFraction)
+                        validation_data=(X_test, y_test))
+    #validation_data=(X_test, y_test))
+except KeyboardInterrupt:
+    print('WARNING: interrupted by user! But it is safe.') #AK-TODO not working
 
-    model.summary()
-    try: #to catch CTRL+C #AK-TODO NOT WORKING!
-        if False:
-            model.compile(loss=keras.losses.categorical_crossentropy,
-                          optimizer=keras.optimizers.Adadelta(),
-                          metrics=[metrics.categorical_accuracy])
-        else:
-            model.compile(loss=keras.losses.categorical_crossentropy,
-                          optimizer=keras.optimizers.Adadelta(),
-                          metrics=[metrics.categorical_accuracy,
-                                   #top_2_accuracy,
-                                   #top_3_accuracy,
-                                   #top_4_accuracy,
-                                   metrics.top_k_categorical_accuracy,
-                                   top_10_accuracy,
-                                   #top_20_accuracy,
-                                   top_30_accuracy,
-                                   #top_40_accuracy,
-                                   top_50_accuracy,
-                                   top_100_accuracy
-                                   ])
+# print results
+print(model.metrics_names)
+#print('Test loss rmse:', np.sqrt(score[0]))
+#print('Test accuracy:', score[1])
+print(history.history)
+f.write(str(history.history))
+# val_acc = history.history['val_acc']
+# acc = history.history['acc']
+# f = open('classification_output.txt','w')
+# f.write('validation_acc\n')
+# f.write(str(val_acc))
+# f.write('\ntrain_acc\n')
+# f.write(str(acc))
+# f.close()
 
-        # compile model.
-        #model.compile(loss='mean_squared_error',
-        #              optimizer=Adagrad(),
-        #              metrics=['accuracy','mae'])
-        history = model.fit(X_train, y_train,
-                            batch_size=batch_size,
-                            epochs=epochs,
-                            verbose=1,
-                            shuffle=True,
-                            #validation_split=validationFraction)
-                            validation_data=(X_test, y_test))
-        #validation_data=(X_test, y_test))
-    except KeyboardInterrupt:
-        print('WARNING: interrupted by user! But it is safe.') #AK-TODO not working
+#score = model.evaluate(X_test, y_test, verbose=1)
+#y_pred = model.predict(X_test) #get the prediction for test set, with 1 for correct 'class' and 0 for others
+#a = model.get_layer('dense_1').output
+#model.outputs = a
+#y_pred = model.predict_proba(X_test) #get the prediction for test set
+y_pred = model.predict(X_test) #get the prediction for test set
+#print(y_pred.shape)
 
-    # print results
-    print(model.metrics_names)
-    #print('Test loss rmse:', np.sqrt(score[0]))
-    #print('Test accuracy:', score[1])
-    print(history.history)
-    f.write(str(history.history))
-    # val_acc = history.history['val_acc']
-    # acc = history.history['acc']
-    # f = open('classification_output.txt','w')
-    # f.write('validation_acc\n')
-    # f.write(str(val_acc))
-    # f.write('\ntrain_acc\n')
-    # f.write(str(acc))
-    # f.close()
-
-    #score = model.evaluate(X_test, y_test, verbose=1)
-    #y_pred = model.predict(X_test) #get the prediction for test set, with 1 for correct 'class' and 0 for others
-    #a = model.get_layer('dense_1').output
-    #model.outputs = a
-    #y_pred = model.predict_proba(X_test) #get the prediction for test set
-    y_pred = model.predict(X_test) #get the prediction for test set
-    #print(y_pred.shape)
-
-    outputFileName =  fileNameIdentifier + '_N' + str(NN) +'.hdf5'
-    fh5py = h5py.File(outputFileName, 'w')
-    fh5py['y_pred'] = y_pred
-    fh5py['y_test_original'] = y_test_original
-    fh5py.close()
-    print('==> Wrote file ' + outputFileName)
+outputFileName =  fileNameIdentifier + '_N' + str(NN) +'.hdf5'
+fh5py = h5py.File(outputFileName, 'w')
+fh5py['y_pred'] = y_pred
+fh5py['y_test_original'] = y_test_original
+fh5py.close()
+print('==> Wrote file ' + outputFileName)
 
 f.close()

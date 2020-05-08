@@ -24,7 +24,7 @@ python createInputFromLIDAR.py PcdFolder outputFile.npz csvInfoFile.csv indexOfT
 
 Example:
 ```bash
-python createInputFromLIDAR.py obstacles_new_3D/ lidar_input_user3.npz CoordVehiclesRxPerScene_s008.csv 3
+python createInputFromLIDAR.py lidar_data_s008/ lidar_input_user3.npz CoordVehiclesRxPerScene_s008.csv 3
 ```
 
 It is assumed that **Python 3** is used.

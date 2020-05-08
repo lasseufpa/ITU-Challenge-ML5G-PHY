@@ -24,7 +24,7 @@ python filterBeamsOutput.py csvInfoFile.csv indexOfTheAnalyzedUser
 
 Example:
 ```bash
-python filterBeamsOutput.py CoordVehiclesRxPerScene_s008.csv 3
+python filterBeamsOutput.py CoordVehiclesRxPerScene_s008.csv beams_output_data_s008.npz 3
 ```
 
 It is assumed that **Python 3** is used.

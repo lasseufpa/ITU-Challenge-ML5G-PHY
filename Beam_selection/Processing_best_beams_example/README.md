@@ -19,7 +19,7 @@ pip install numpy
 To run the processing after already had the files, run the following command:
 
 ```bash
-python filterBeamsOutput.py csvInfoFile.csv indexOfTheAnalyzedUser
+python filterBeamsOutput.py csvInfoFile.csv bestBeamsFile indexOfTheAnalyzedUser
 ```
 
 Example:

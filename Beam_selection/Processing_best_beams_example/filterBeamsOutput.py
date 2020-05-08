@@ -33,13 +33,13 @@ def getInfo(filename, user):
 #config variables
 argv = sys.argv
 filename = argv[1] #information file 
-user = int(argv[2]) #user you want to track
+user = int(argv[3]) #user you want to track
 npz_name = 'beams_output_user'+ str(user) + '.npz' #npz output name
 
 numExamples,episode_list, scene_list, line_list = getInfo(filename, user) #extract useful information
 
 
-BeamFileName = './beams_output.npz' 
+BeamFileName = argv[2]
 print("Reading dataset...", BeamFileName)
 beam_cache_file = np.load(BeamFileName)
 X_Beam = beam_cache_file['output_classification']

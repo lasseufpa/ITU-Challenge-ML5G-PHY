@@ -1,7 +1,7 @@
 # BeamSelection Framework
 
-This repository contains the codes for preprocessing data and train/test a
-NN(Neural Network) for a beamselection task based on Raymobtime datasets.
+This repository contains Python code for preprocessing data and train/test a
+NN (Neural Network) for a beam-selection task based on Raymobtime datasets.
 
 ## How to use it?
 

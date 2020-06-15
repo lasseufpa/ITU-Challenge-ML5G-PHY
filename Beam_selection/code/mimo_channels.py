@@ -1,9 +1,13 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 import os
 import datetime
 
 import numpy as np
-from rwiparsing import P2mPaths, P2mCir
-#from akpy.matlab_tofrom_python import read_matlab_array_from_mat
 
 def calc_omega(elevationAngles, azimuthAngles, normalizedAntDistance = 0.5):
     sinElevations = np.sin(elevationAngles)

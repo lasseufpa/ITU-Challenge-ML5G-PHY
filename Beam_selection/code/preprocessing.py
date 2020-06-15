@@ -1,3 +1,10 @@
+###################################################################
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 import argparse
 from processImageData import processImageData
 from processCoordinates import processCoordinates
@@ -5,8 +12,6 @@ from processLidarData import processLidarData
 from processBeamsOutput import processBeamsOutput
 from pathlib import Path
 
-coordFileName = '../../Datasets/Raymobtime_s008/CoordVehiclesRxPerScene_s008.csv'
-episodesForTrain = 1564
 
 def checkDataDirectory(path):
     #passing from string to libpath's Path obj
@@ -29,7 +34,7 @@ def main():
     
     checkDataDirectory(args.data_folder)
 
-    limit = processCoordinates(args.data_folder, args.dataset, episodesForTrain)
+    limit = processCoordinates(args.data_folder, args.dataset)
     processImageData(args.data_folder, args.dataset, limit)
     processLidarData(args.data_folder, args.dataset, limit)
     processBeamsOutput(args.data_folder, args.dataset, limit)

@@ -1,10 +1,12 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May  6 20:54:30 2020
 
-@author: diego
-"""
 import csv
 import numpy as np
 from CSVHandler import CSVHandler
@@ -46,8 +48,8 @@ def processLidarData(data_folder, dataset, limit):
             obstacles_matrix_array_lidar[id_count] = obstacles_matrix_array[r]
             id_count = id_count + 1
 
-    lidar_inputs_train = obstacles_matrix_array_lidar[limit:]
-    lidar_inputs_test = obstacles_matrix_array_lidar[:limit]
+    lidar_inputs_test = obstacles_matrix_array_lidar[limit:]
+    lidar_inputs_train = obstacles_matrix_array_lidar[:limit]
 
     #train
     np.savez(inputDataDir+'lidar_train.npz',input=lidar_inputs_train)

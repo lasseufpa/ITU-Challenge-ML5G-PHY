@@ -1,10 +1,11 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May  6 15:23:32 2020
-
-@author: diego, ailton, marcus
-"""
 
 '''Trains a deep NN for choosing top-K beams
 Adapted by AK: Aug 7, 2018
@@ -28,7 +29,6 @@ from sklearn.model_selection import train_test_split
 from ModelHandler import ModelHandler
 import numpy as np
 import argparse
-from enum import Enum
 
 
 ###############################################################################
@@ -95,7 +95,10 @@ parser.add_argument('data_folder', help='Location of the data directory', type=s
 #TODO: limit the number of input to 3
 parser.add_argument('--input', nargs='*', default=['coord'], 
 choices = ['img', 'coord', 'lidar'],
-help='Which data to use as input. Select from: img, lidar or coord.') 
+help='Which data to use as input. Select from: img, lidar or coord.')
+parser.add_argument('-p','--plots', 
+help='Use this parametter if you want to see the accuracy and loss plots',
+action='store_true')
 args = parser.parse_args()
 
 ###############################################################################
@@ -107,11 +110,16 @@ tgtRec = 3
 
 ###############################################################################
 # Coordinate configuration
-coord_input_file = data_dir+'coord/coord_'+str(tgtRec)+'.npz'
-coord_cache_file = np.load(coord_input_file)
-X_coord = coord_cache_file['coordinates']
+#train
+coord_train_input_file = data_dir+'coord_input/coord_train.npz'
+coord_train_cache_file = np.load(coord_train_input_file)
+X_coord_train = coord_train_cache_file['coordinates']
+#validation
+coord_validation_input_file = data_dir+'coord_input/coord_validation.npz'
+coord_validation_cache_file = np.load(coord_validation_input_file)
+X_coord_validation = coord_validation_cache_file['coordinates']
 
-coord_input_shape = X_coord.shape
+coord_train_input_shape = X_coord_train.shape
 
 ###############################################################################
 # Image configuration
@@ -119,27 +127,42 @@ resizeFac = 20 # Resize Factor
 nCh = 1 # The number of channels of the image
 imgDim = (360,640) # Image dimensions
 method = 1
+#train
+img_train_input_file = data_dir+'image_input/img_input_train_'+str(resizeFac)+'.npz'
+print("Reading dataset... ",img_train_input_file)
+img_train_cache_file = np.load(img_train_input_file)
+X_img_train = img_train_cache_file['inputs']
+#validation
+img_validation_input_file = data_dir+'image_input/img_input_validation_'+str(resizeFac)+'.npz'
+print("Reading dataset... ",img_validation_input_file)
+img_validation_cache_file = np.load(img_validation_input_file)
+X_img_validation = img_validation_cache_file['inputs']
 
-img_input_file = data_dir+'image/img_input_train_tst_'+str(method)+'_'+str(resizeFac)+'.npz'
-print("Reading dataset... ",img_input_file)
-img_cache_file = np.load(img_input_file)
-X_img = img_cache_file['inputs']
-
-img_input_shape = X_img.shape
+img_train_input_shape = X_img_train.shape
 
 ###############################################################################
 # LIDAR configuration
-lidar_input_file = data_dir+'lidar/lidar_'+str(tgtRec)+'.npz'
-print("Reading dataset... ",lidar_input_file)
-lidar_cache_file = np.load(lidar_input_file)
-X_lidar = lidar_cache_file['inputs']
+#train
+lidar_train_input_file = data_dir+'lidar_input/lidar_train.npz'
+print("Reading dataset... ",lidar_train_input_file)
+lidar_train_cache_file = np.load(lidar_train_input_file)
+X_lidar_train = lidar_train_cache_file['input']
+#validation
+lidar_validation_input_file = data_dir+'lidar_input/lidar_validation.npz'
+print("Reading dataset... ",lidar_validation_input_file)
+lidar_validation_cache_file = np.load(lidar_validation_input_file)
+X_lidar_validation = lidar_validation_cache_file['input']
 
-lidar_input_shape = X_lidar.shape
+lidar_train_input_shape = X_lidar_train.shape
 
 ###############################################################################
 # Output configuration
-output_file = data_dir+'beam_output/beams_output_user'+str(tgtRec)+'.npz'
-y,num_classes = getBeamOutput(output_file)
+#train
+output_train_file = data_dir+'beam_output/beams_output_train.npz'
+y_train,num_classes = getBeamOutput(output_train_file)
+
+output_validation_file = data_dir+'beam_output/beams_output_validation.npz'
+y_validation, _ = getBeamOutput(output_validation_file)
 
 ##############################################################################
 # Model configuration
@@ -148,24 +171,24 @@ y,num_classes = getBeamOutput(output_file)
 #multimodal
 multimodal = False if len(args.input) == 1 else len(args.input)
 
-num_epochs = 400
+num_epochs = 10
 batch_size = 32
 validationFraction = 0.2 #from 0 to 1
 modelHand = ModelHandler()
 opt = Adam()
 
 if 'coord' in args.input:
-    coord_model = modelHand.createArchitecture('coord_mlp',num_classes,coord_input_shape[1],'complete')
+    coord_model = modelHand.createArchitecture('coord_mlp',num_classes,coord_train_input_shape[1],'complete')
 if 'img' in args.input:
     if nCh==1:   
-        img_model = modelHand.createArchitecture('light_image',num_classes,[img_input_shape[1],img_input_shape[2],1],'complete')
+        img_model = modelHand.createArchitecture('light_image',num_classes,[img_train_input_shape[1],img_train_input_shape[2],1],'complete')
     else:
-        img_model = modelHand.createArchitecture('light_image',num_classes,[img_input_shape[1],img_input_shape[2],img_input_shape[3]],'complete')
+        img_model = modelHand.createArchitecture('light_image',num_classes,[img_train_input_shape[1],img_train_input_shape[2],img_train_input_shape[3]],'complete')
 if 'lidar' in args.input:
-    lidar_model = modelHand.createArchitecture('lidar_marcus',num_classes,[lidar_input_shape[1],lidar_input_shape[2],lidar_input_shape[3]],'complete')
+    lidar_model = modelHand.createArchitecture('lidar_marcus',num_classes,[lidar_train_input_shape[1],lidar_train_input_shape[2],lidar_train_input_shape[3]],'complete')
 
-if multimodal:
-    if 'coord' and 'lidar' in args.input:
+if multimodal == 2:
+    if 'coord' in args.input and 'lidar' in args.input:
         combined_model = concatenate([coord_model.output,lidar_model.output])
         z = Dense(num_classes,activation="relu")(combined_model)
         model = Model(inputs=[coord_model.input,lidar_model.input],outputs=z)
@@ -175,9 +198,10 @@ if multimodal:
                             metrics.top_k_categorical_accuracy,
                             top_50_accuracy])
         model.summary()
-        model.fit([X_coord,X_lidar],y,epochs=num_epochs,batch_size=batch_size)
+        hist = model.fit([X_coord_train,X_lidar_train],y_train, 
+        validation_data=([X_coord_validation, X_lidar_validation], y_validation),epochs=num_epochs,batch_size=batch_size)
 
-    elif 'coord' and 'img' in args.input:
+    elif 'coord' in args.input and 'img' in args.input:
         combined_model = concatenate([coord_model.output,img_model.output])
         z = Dense(num_classes,activation="relu")(combined_model)
         model = Model(inputs=[coord_model.input,img_model.input],outputs=z)
@@ -187,7 +211,8 @@ if multimodal:
                             metrics.top_k_categorical_accuracy,
                             top_50_accuracy])
         model.summary()
-        model.fit([X_coord,X_img],y,epochs=num_epochs,batch_size=batch_size)
+        hist = model.fit([X_coord_train,X_img_train],y_train,
+        validation_data=([X_coord_validation, X_img_validation], y_validation), epochs=num_epochs,batch_size=batch_size)
     
     else:
         combined_model = concatenate([lidar_model.output,img_model.output])
@@ -199,40 +224,69 @@ if multimodal:
                             metrics.top_k_categorical_accuracy,
                             top_50_accuracy])
         model.summary()
-        model.fit([X_lidar,X_img],y,epochs=num_epochs,batch_size=batch_size)
+        hist = model.fit([X_lidar_train,X_img_train],y_train, 
+        validation_data=([X_lidar_validation, X_img_validation], y_validation), epochs=num_epochs,batch_size=batch_size)
+elif multimodal == 3:
+    combined_model = concatenate([lidar_model.output,img_model.output, coord_model.output])
+    z = Dense(num_classes,activation="relu")(combined_model)
+    model = Model(inputs=[lidar_model.input,img_model.input, coord_model.input],outputs=z)
+    model.compile(loss=categorical_crossentropy,
+                optimizer=opt,
+                metrics=[metrics.categorical_accuracy,
+                        metrics.top_k_categorical_accuracy,
+                        top_50_accuracy])
+    model.summary()
+    hist = model.fit([X_lidar_train,X_img_train,X_coord_train],y_train,
+            validation_data=([X_lidar_validation, X_img_validation, X_coord_validation], y_validation),
+            epochs=num_epochs,batch_size=batch_size)
 
 else:
     if 'coord' in args.input:
-        input_model = modelHand.createArchitecture('coord_mlp',num_classes,coord_input_shape[1],'complete')
-        z = Dense(num_classes,activation="relu")(input_model.output)
-        model = Model(inputs=input_model.input, outputs=z)
+        model = coord_model
         model.compile(loss=categorical_crossentropy,
                             optimizer=opt,
                             metrics=[metrics.categorical_accuracy,
                                     metrics.top_k_categorical_accuracy,
                                     top_50_accuracy])
         model.summary()
-        model.fit(X_coord,y,epochs=num_epochs,batch_size=batch_size)
+        hist = model.fit(X_coord_train,y_train, 
+        validation_data=(X_coord_validation, y_validation),epochs=num_epochs,batch_size=batch_size)
 
     elif 'img' in args.input:
-        input_model = img_model  
-        input_model.compile(loss=categorical_crossentropy,
-                    optimizer=opt,
-                    metrics=[metrics.categorical_accuracy,
-                            metrics.top_k_categorical_accuracy,
-                            top_50_accuracy])
-        input_model.summary()
-        input_model.fit(X_img,y,epochs=num_epochs,batch_size=batch_size)
-
-    else:
-        input_model = modelHand.createArchitecture('lidar_marcus',num_classes,[lidar_input_shape[1],lidar_input_shape[2],lidar_input_shape[3]],'complete')
-        z = Dense(num_classes,activation="relu")(input_model.output)
-        model = Model(inputs=input_model.input, outputs=z)
+        model = img_model  
         model.compile(loss=categorical_crossentropy,
                     optimizer=opt,
                     metrics=[metrics.categorical_accuracy,
                             metrics.top_k_categorical_accuracy,
                             top_50_accuracy])
         model.summary()
-        model.fit(X_lidar,y,epochs=num_epochs,batch_size=batch_size)
+        hist = model.fit(X_img_train,y_train, 
+        validation_data=(X_img_validation, y_validation),epochs=num_epochs,batch_size=batch_size)
+
+    else:
+        model = lidar_model
+        model.compile(loss=categorical_crossentropy,
+                    optimizer=opt,
+                    metrics=[metrics.categorical_accuracy,
+                            metrics.top_k_categorical_accuracy,
+                            top_50_accuracy])
+        model.summary()
+        hist = model.fit(X_lidar_train,y_train, 
+        validation_data=(X_lidar_validation, y_validation),epochs=num_epochs,batch_size=batch_size)
+
+if args.plots:
+    import matplotlib.pyplot as plt
+    acc = hist.history['top_50_accuracy']
+    val_acc = hist.history['val_top_50_accuracy']
+
+    loss = hist.history['loss']
+    val_loss = hist.history['val_loss']
+    epochs = range(1, len(acc)+1)
     
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.plot(epochs, acc, 'b--', label='accuracy')
+    plt.plot(epochs, acc, 'g-', label='validation accuracy')
+    plt.legend()
+
+    plt.show()

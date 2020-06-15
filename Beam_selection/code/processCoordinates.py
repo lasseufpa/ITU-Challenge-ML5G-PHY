@@ -1,17 +1,19 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May 13 18:46:16 2020
 
-@author: diego
-"""
 import csv
 import numpy as np
 from CSVHandler import CSVHandler
 import os
 from numpy import load
 
-def processCoordinates(data_folder, dataset, episodesForTrain):
+def processCoordinates(data_folder, dataset):
     print('Generating Beams ...')
     csvHand = CSVHandler()
     
@@ -19,7 +21,7 @@ def processCoordinates(data_folder, dataset, episodesForTrain):
     coordFileName = 'CoordVehiclesRxPerScene_s008'
     coordURL = dataset +'/'+coordFileName + '.csv'
     
-    coordinates_train, coordinates_test = csvHand.getCoord(coordURL, episodesForTrain)
+    coordinates_train, coordinates_test = csvHand.getCoord(coordURL, 1564)
     
     train_channels = len(coordinates_train)
 

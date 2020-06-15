@@ -1,3 +1,9 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 '''
 Read channel information (rays organized as npz files) and output the complex-valued
 equivalent channels (not anymore only the indices of best pair of beams, which can
@@ -154,16 +160,17 @@ def processBeamsOutput(data_folder, dataset, limit):
         print('Saved file ', npz_name) '''
 
 
-    beams_output_train = allOutputs[limit:]
-    beams_output_test = allOutputs[:limit]
+    beams_output_test = allOutputs[limit:]
+    beams_output_train = allOutputs[:limit]
+    
 
     npz_name_train = outputFolder + 'beams_output_train' + '.npz'
     np.savez(npz_name_train, output_classification=beams_output_train)
     print('Saved file ', npz_name_train)
 
-    npz_name_test = outputFolder + 'beams_output_validation' + '.npz'
-    np.savez(npz_name_test, output_classification=beams_output_test)
-    print('Saved file ', npz_name_test)
+    npz_name_validation = outputFolder + 'beams_output_validation' + '.npz'
+    np.savez(npz_name_validation, output_classification=beams_output_test)
+    print('Saved file ', npz_name_validation)
 
     print('Sanity check (must be 0 NaN) sum of isNaN = ', np.sum(np.isnan(allOutputs[:])))
     print('total numOfInvalidChannels = ', numOfInvalidChannels)

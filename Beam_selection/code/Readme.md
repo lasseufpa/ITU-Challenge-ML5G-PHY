@@ -1,27 +1,56 @@
-# BeamSelection Framework
+## Beam Selection baseline
 
-This repository contains Python code for preprocessing data and train/test a
-NN (Neural Network) for a beam-selection task based on Raymobtime datasets.
+This repository contains Python codes for preprocessing data and train/validate
+a Neural Network for the beam selection task using the Raymobtime dataset.
 
-## How to use it?
+### Python dependencies
+If you want to use the already available preprocessed data, to train this baseline
+model the only dependencies are:  
+* [TensorFlow](https://www.tensorflow.org/install)
+* [Skikit-learn](https://scikit-learn.org/stable/install.html)
+* [Numpy](https://numpy.org/install/)
 
-### Preprocessing
-First, download the desired dataset [here](https://nextcloud.lasseufpa.org/s/7FrX2883E4yorbB).
-After downloading the dataset, run the following command:
+In the other hand, if you want to preprocess data or plot model's accuracy and 
+loss, you'll also need the following ones:
+  * [OpenCV](https://pypi.org/project/opencv-python/) For image processing, e.g: image resampling
+  * [Matplotlib](https://matplotlib.org/users/installing.html) For plotting
 
+<!-- ### Getting data
+Before  -->
+
+### How to use it?
+
+#### Preprocessing
+Before training your model, preprocess the data using:
+
+```bash
+python preprocessing.py raymobtime_root data_folder
 ```
-python code/preprocessing.py data_folder Raymobtime_root
+* Parameters
+  
+  * (**Mandatory**) *raymobtime_root* is the directory where you placed the files related to the Raymobtime dataset, downloaded using one of the scripts available [here](https://github.com/lasseufpa/ITU-Challenge-ML5G-PHY/tree/master/Beam_selection/data).
+
+  * (**Mandatory**) *data_folder* is the directory where you want to place the processed files.
+
+> If *data_folder* doesn't exist, it will be created for you
+
+#### Training and validation
+After processing the data, you can train and validate your model using the
+following command:
+
+```bash
+python main.py data_folder --input type_of_input
 ```
-*data_folder* is a directory to put the processed files and *Raymobtime_root* is
-the root of the Raymobtime dataset.
 
-### Training and testing
-To train and test the model, you should run the following command:
+* Parameters 
 
-```shell
-python code/main.py data_folder --input type_of_input
+  * (**Mandatory**) *data_folder* is the same one directory generated on the preprocessing step.
+
+  * (**Optional**) *--input* is a list of the types of data that you want to feed into your model. You can pass up to 3 different types, the possible ones are : *img, coord and lidar*. In the absence of the *--input* parameter, the coord data will be used as a default
+  * (**Optional**) *--plots* plot the accuracy and validation accuracy of your model.
+
+##### Usage example
+To train a model that uses *images, lidar and coordinates* use the command:
+```bash
+python main.py data --input img lidar coord
 ```
-
-*data_folder* is the same one generated on the preprocessing step and the
-possible values for *--input* are: img, lidar or coord. You can use a single
-type of data or as many as necessary(don't repeat the same parametters or pass more than 3 different)

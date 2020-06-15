@@ -1,10 +1,12 @@
+#Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Email          	: ml5gphy@gmail.com                                          
+#License		: This script is distributed under "Public Domain" license.
+###################################################################
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr  1 23:28:18 2020
 
-@author: diagomes
-"""
 import cv2
 from scipy.signal import convolve2d
 import numpy as np
@@ -56,7 +58,7 @@ class ImgFeatureExtractor:
         for samp in range(0,nSamples):
             for cam in range(1,4):
                 epi_scen = epi_scen_list[samp]
-                imgURL = self.dataDir+self.imgDataDir+'camera'+str(cam)+'/'+'{:0>4}'.format(epi_scen[0])+'.png'
+                imgURL = self.dataDir+self.imgDataDir+'Camera'+str(cam)+'/'+'{:0>1}'.format(epi_scen[0])+'.png'
                 imgTmp = self.color_space_cvt(imgURL) #convert for the right color space
                 #cv2.imshow("Resized image", imgTmp) #plot debug
                 #cv2.waitKey(0)
@@ -75,9 +77,10 @@ class ImgFeatureExtractor:
                         
             if(np.mod(samp+1,21)==0):
                 print("Generated samples: "+str(samp))
-        input_train = inputs[limit:]
-        input_test =  inputs[:limit]    
+        input_validation = inputs[limit:]
+        input_train =  inputs[:limit]
+
         #np.savez(self.inputDataDir+'img_input_'+self.learnSet+'_tst'+'_1_'+str(self.resizeFac)+'.npz',inputs=inputs)
-        np.savez(self.inputDataDir+'img_input_train'+self.learnSet+'_tst'+'_1_'+str(self.resizeFac)+'.npz',inputs=input_train)          
-        np.savez(self.inputDataDir+'img_input_test'+self.learnSet+'_tst'+'_1_'+str(self.resizeFac)+'.npz',inputs=input_test)  
+        np.savez(self.inputDataDir+'img_input_train_'+str(self.resizeFac)+'.npz',inputs=input_train)          
+        np.savez(self.inputDataDir+'img_input_validation_'+str(self.resizeFac)+'.npz',inputs=input_validation)  
         return inputs

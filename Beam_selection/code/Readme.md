@@ -2,6 +2,8 @@
 
 This repository contains Python codes for preprocessing data and train/validate
 a Neural Network for the beam selection task using the Raymobtime dataset.
+To download the files for preprocessing or/and the Neural network [Access here](https://github.com/lasseufpa/ITU-Challenge-ML5G-PHY/tree/master/Beam_selection/data)
+Or download directly [Here](https://nextcloud.lasseufpa.org/s/FQgjXx7r52c7Ww9)
 
 ### Python dependencies
 If you want to use the already available preprocessed data, to train this baseline

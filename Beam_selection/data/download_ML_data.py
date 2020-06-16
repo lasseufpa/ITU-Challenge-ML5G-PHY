@@ -3,10 +3,10 @@ Download dataset for channel estimation challenge
 '''
 import wget
 
-URL = 'https://nextcloud.lasseufpa.org/s/zqeeyDtbbPt7nKz'
+URL = 'https://nextcloud.lasseufpa.org/s/zqeeyDtbbPt7nKz/download'
 TRAIN_FILE_NAME = wget.download(URL)
 
-print(f'{TRAIN_FILE_NAME} was downloaded successfully!')
+print('\n File was downloaded successfully!')
 
 #URL = ''
 #TEST_FILE_NAME = wget.download(URL)

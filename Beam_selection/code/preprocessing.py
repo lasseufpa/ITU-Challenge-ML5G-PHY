@@ -12,19 +12,6 @@ from processLidarData import processLidarData
 from processBeamsOutput import processBeamsOutput
 from pathlib import Path
 
-
-def checkDataDirectory(path):
-    #passing from string to libpath's Path obj
-    path = Path(path)
-    if path.exists():
-        print('Folder already exists')
-    else:
-        print('Creating the folder structure...\n')
-        path.mkdir()
-        path.joinpath('coord_input').mkdir()
-        path.joinpath('image_input').mkdir()
-        path.joinpath('lidar_input').mkdir()
-        path.joinpath('beam_output').mkdir()
         
 def main():
     parser = argparse.ArgumentParser(description='Configure the files before training the net.')
@@ -38,6 +25,36 @@ def main():
     processImageData(args.data_folder, args.dataset, limit)
     processLidarData(args.data_folder, args.dataset, limit)
     processBeamsOutput(args.data_folder, args.dataset, limit)
+
+
+def checkDataDirectory(path):
+    #passing from string to libpath's Path obj
+    path = Path(path)
+    if path.exists():
+        print('Folder already exists')
+    else:
+        print('Creating the folder structure...\n')
+        path.mkdir()
+    if (path.joinpath('coord_input')).exists():
+        print('Folder already exists')
+    else:
+        print('Creating the folder structure...\n')
+        path.joinpath('coord_input').mkdir()
+    if (path.joinpath('image_input')).exists():
+        print('Folder already exists')
+    else:
+        print('Creating the folder structure...\n')
+        path.joinpath('image_input').mkdir()
+    if (path.joinpath('lidar_input')).exists():
+        print('Folder already exists')
+    else:
+        print('Creating the folder structure...\n')
+        path.joinpath('lidar_input').mkdir()
+    if (path.joinpath('beam_output')).exists():
+        print('Folder already exists')
+    else:
+        print('Creating the folder structure...\n')
+        path.joinpath('beam_output').mkdir()
 
 if __name__ == "__main__":
     main()

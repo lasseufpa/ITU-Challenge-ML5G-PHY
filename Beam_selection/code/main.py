@@ -108,52 +108,55 @@ tf.device('/device:GPU:0')
 data_dir = args.data_folder+'/'
 tgtRec = 3
 
-###############################################################################
-# Coordinate configuration
-#train
-coord_train_input_file = data_dir+'coord_input/coord_train.npz'
-coord_train_cache_file = np.load(coord_train_input_file)
-X_coord_train = coord_train_cache_file['coordinates']
-#validation
-coord_validation_input_file = data_dir+'coord_input/coord_validation.npz'
-coord_validation_cache_file = np.load(coord_validation_input_file)
-X_coord_validation = coord_validation_cache_file['coordinates']
+if 'coord' in args.input: 
+    ###############################################################################
+    # Coordinate configuration
+    #train
+    coord_train_input_file = data_dir+'coord_input/coord_train.npz'
+    coord_train_cache_file = np.load(coord_train_input_file)
+    X_coord_train = coord_train_cache_file['coordinates']
+    #validation
+    coord_validation_input_file = data_dir+'coord_input/coord_validation.npz'
+    coord_validation_cache_file = np.load(coord_validation_input_file)
+    X_coord_validation = coord_validation_cache_file['coordinates']
 
-coord_train_input_shape = X_coord_train.shape
+    coord_train_input_shape = X_coord_train.shape
 
-###############################################################################
-# Image configuration
-resizeFac = 20 # Resize Factor
-nCh = 1 # The number of channels of the image
-imgDim = (360,640) # Image dimensions
-method = 1
-#train
-img_train_input_file = data_dir+'image_input/img_input_train_'+str(resizeFac)+'.npz'
-print("Reading dataset... ",img_train_input_file)
-img_train_cache_file = np.load(img_train_input_file)
-X_img_train = img_train_cache_file['inputs']
-#validation
-img_validation_input_file = data_dir+'image_input/img_input_validation_'+str(resizeFac)+'.npz'
-print("Reading dataset... ",img_validation_input_file)
-img_validation_cache_file = np.load(img_validation_input_file)
-X_img_validation = img_validation_cache_file['inputs']
+if 'img' in args.input:
+    ###############################################################################
+    # Image configuration
+    resizeFac = 20 # Resize Factor
+    nCh = 1 # The number of channels of the image
+    imgDim = (360,640) # Image dimensions
+    method = 1
+    #train
+    img_train_input_file = data_dir+'image_input/img_input_train_'+str(resizeFac)+'.npz'
+    print("Reading dataset... ",img_train_input_file)
+    img_train_cache_file = np.load(img_train_input_file)
+    X_img_train = img_train_cache_file['inputs']
+    #validation
+    img_validation_input_file = data_dir+'image_input/img_input_validation_'+str(resizeFac)+'.npz'
+    print("Reading dataset... ",img_validation_input_file)
+    img_validation_cache_file = np.load(img_validation_input_file)
+    X_img_validation = img_validation_cache_file['inputs']
 
-img_train_input_shape = X_img_train.shape
+    img_train_input_shape = X_img_train.shape
 
-###############################################################################
-# LIDAR configuration
-#train
-lidar_train_input_file = data_dir+'lidar_input/lidar_train.npz'
-print("Reading dataset... ",lidar_train_input_file)
-lidar_train_cache_file = np.load(lidar_train_input_file)
-X_lidar_train = lidar_train_cache_file['input']
-#validation
-lidar_validation_input_file = data_dir+'lidar_input/lidar_validation.npz'
-print("Reading dataset... ",lidar_validation_input_file)
-lidar_validation_cache_file = np.load(lidar_validation_input_file)
-X_lidar_validation = lidar_validation_cache_file['input']
+if 'lidar' in args.input:
+    ###############################################################################
+    # LIDAR configuration
+    #train
+    lidar_train_input_file = data_dir+'lidar_input/lidar_train.npz'
+    print("Reading dataset... ",lidar_train_input_file)
+    lidar_train_cache_file = np.load(lidar_train_input_file)
+    X_lidar_train = lidar_train_cache_file['input']
+    #validation
+    lidar_validation_input_file = data_dir+'lidar_input/lidar_validation.npz'
+    print("Reading dataset... ",lidar_validation_input_file)
+    lidar_validation_cache_file = np.load(lidar_validation_input_file)
+    X_lidar_validation = lidar_validation_cache_file['input']
 
-lidar_train_input_shape = X_lidar_train.shape
+    lidar_train_input_shape = X_lidar_train.shape
 
 ###############################################################################
 # Output configuration

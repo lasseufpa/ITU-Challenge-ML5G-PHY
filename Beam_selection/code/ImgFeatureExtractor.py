@@ -58,7 +58,7 @@ class ImgFeatureExtractor:
         for samp in range(0,nSamples):
             for cam in range(1,4):
                 epi_scen = epi_scen_list[samp]
-                imgURL = self.dataDir+self.imgDataDir+'Camera'+str(cam)+'/'+'{:0>1}'.format(epi_scen[0])+'.png'
+                imgURL = self.dataDir+self.imgDataDir+'camera'+str(cam)+'/'+'{:0>1}'.format(epi_scen[0])+'.png'
                 imgTmp = self.color_space_cvt(imgURL) #convert for the right color space
                 #cv2.imshow("Resized image", imgTmp) #plot debug
                 #cv2.waitKey(0)

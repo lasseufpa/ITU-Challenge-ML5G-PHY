@@ -13,7 +13,7 @@ model the only dependencies are:
 * [Numpy](https://numpy.org/install/)
 
 In the other hand, if you want to preprocess data or plot model's accuracy and 
-loss, you'll also need the following ones:
+loss, you will also need the following ones:
   * [OpenCV](https://pypi.org/project/opencv-python/) For image processing, e.g: image resampling
   * [Matplotlib](https://matplotlib.org/users/installing.html) For plotting
 

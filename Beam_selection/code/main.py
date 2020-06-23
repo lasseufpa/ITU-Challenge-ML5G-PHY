@@ -174,7 +174,7 @@ y_validation, _ = getBeamOutput(output_validation_file)
 #multimodal
 multimodal = False if len(args.input) == 1 else len(args.input)
 
-num_epochs = 10
+num_epochs = 3
 batch_size = 32
 validationFraction = 0.2 #from 0 to 1
 modelHand = ModelHandler()
@@ -183,6 +183,7 @@ opt = Adam()
 if 'coord' in args.input:
     coord_model = modelHand.createArchitecture('coord_mlp',num_classes,coord_train_input_shape[1],'complete')
 if 'img' in args.input:
+    num_epochs = 5
     if nCh==1:   
         img_model = modelHand.createArchitecture('light_image',num_classes,[img_train_input_shape[1],img_train_input_shape[2],1],'complete')
     else:
@@ -279,17 +280,29 @@ else:
 
 if args.plots:
     import matplotlib.pyplot as plt
-    acc = hist.history['top_50_accuracy']
-    val_acc = hist.history['val_top_50_accuracy']
+
+
+    import matplotlib     
+    matplotlib.rcParams.update({'font.size': 15})
+
+    acc = hist.history['top_k_categorical_accuracy']
+    val_acc = hist.history['val_top_k_categorical_accuracy']
 
     loss = hist.history['loss']
     val_loss = hist.history['val_loss']
     epochs = range(1, len(acc)+1)
     
+    plt.subplot(121)
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
-    plt.plot(epochs, acc, 'b--', label='accuracy')
-    plt.plot(epochs, acc, 'g-', label='validation accuracy')
+    plt.plot(epochs, acc, 'b--', label='accuracy', linewidth=2)
+    plt.plot(epochs, val_acc, 'g-', label='validation accuracy',linewidth=2)
+    plt.legend()
+    plt.subplot(122)
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.plot(epochs, loss, 'b--', label='loss',linewidth=2)
+    plt.plot(epochs, val_loss, 'g--', label='validation loss',linewidth=2)
     plt.legend()
 
     plt.show()

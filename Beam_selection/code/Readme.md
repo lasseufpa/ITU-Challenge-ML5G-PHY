@@ -6,11 +6,15 @@ To download the files for preprocessing or/and the Neural network [Access here](
 Or download directly [Here](https://nextcloud.lasseufpa.org/s/FQgjXx7r52c7Ww9)
 
 ### Python dependencies
-If you want to use the already available preprocessed data, to train this baseline
+If you want to use the already available preprocessed data, to train and test this baseline
 model the only dependencies are:  
 * [TensorFlow](https://www.tensorflow.org/install)
-* [Skikit-learn](https://scikit-learn.org/stable/install.html)
+* [Scikit-learn](https://scikit-learn.org/stable/install.html)
 * [Numpy](https://numpy.org/install/)
+
+You may install these packages using pip or similar software. For example, with pip:
+
+pip install tensorflow
 
 In the other hand, if you want to preprocess data or plot model's accuracy and 
 loss, you will also need the following ones:

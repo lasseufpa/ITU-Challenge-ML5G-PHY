@@ -15,7 +15,7 @@ blender your_scenario.blend -P raymobtime_visualizer.py your_insite_folder
 
 example:
 ```bash
-blender rosslyn.blend -P blender_visualizer.py ./video_raymob
+blender rosslyn.blend -P blender_visualizer.py ./s008_simulation
 ```
 
 `your_scenario` is the .blend file with the model of your city and `your_runs_folder` is the location of your InSite raw data.

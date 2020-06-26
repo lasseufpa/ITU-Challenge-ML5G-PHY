@@ -18,8 +18,8 @@ example:
 blender rosslyn.blend -P Raymobtime_visualizer.py ./s008_simulation
 ```
 
-`your_scenario` is the .blend file with the model of your city and `your_runs_folder` is the location of your InSite raw data.
+`your_scenario` is the .blend file with the model of your city and `your_runs_folder` is the location of your Wireless InSite simulation folder data.
 
-You can donwload InSite raw data [Here](https://nextcloud.lasseufpa.org/s/QKPC23THnn6pez6)
+You can donwload Wireless InSite simulation folder data [Here](https://nextcloud.lasseufpa.org/s/QKPC23THnn6pez6)
 
 After running the command, Blender should open with your simulation done, where each run is represented in a specific frame of the animation.

@@ -5,7 +5,7 @@ To run this code you'll need:
 - The vehicles models named as vehicles.blend in this exact folder
 - The Insite simulation of your interest
 
-run as: blender your_scenario.blend -P blender_animation.py Your_InSite_Simulation_Folder
+run as: blender your_scenario.blend -P Raymobtime_visualizer.py Your_InSite_Simulation_Folder
 '''
 import sys  
 import os

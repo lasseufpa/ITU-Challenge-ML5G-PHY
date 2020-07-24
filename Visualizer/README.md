@@ -5,21 +5,28 @@ It is assumed that Linux is used
 1. First of all you'll need to have Blender installed on your machine. Our files are made in Blender 2.79 that can be downloaded in [this link](https://download.blender.org/release/Blender2.79/).
 2. After having Blender installed in your machine, you must have a file with the blender modeling of your scenario. We already provide both used in our simulations: Rosslyn and Beijing. If you're using another one, just make sure you have its full path.
 3. We provide three models of vehicles for Car, Bus, and Truck in a file named vehicles.blend. Make sure it's in the current folder.
-4. At last, you'll need Wireless InSite Simulation Runs. The vehicles positions and rays info are taking from it. We have some available in our [RayMobTime site](https://www.lasse.ufpa.br/raymobtime/)
-5. Now, you can choose some options for your simulation: start/ending run, if you want to visualize the rays, what vehicle you want to track and how many rays you wanna display for it. They are made direct in the file `raymobtime_animation.py`, you just need to change start_run (line 24) and end_run (line 25) to your desired interval of runs to simulate, useRays (line 27) to False or True if you wanna see or not the rays animation, user (line 29) to select the desired vehicle to track (0 will track all vehicles with antena) and rays_quantity (line 31) to the number of rays you wanna display per vehicle.
-6. With everything set, you'll have to open your CLI and run the following command:
+4. At last, you'll need Wireless InSite Simulation Runs. The vehicles positions and rays info are taking from it. You can donwload Wireless InSite simulation folder data [Here](https://nextcloud.lasseufpa.org/s/QKPC23THnn6pez6)
+5. With everything set, you'll have to open your CLI and run the following command, supposing you're using the provided data:
 
-```bash
-blender your_scenario.blend -P Raymobtime_visualizer.py your_insite_folder
-```
+    ```bash
+    blender rosslyn.blend -P Raymobtime_visualizer.py ./s008_simulation
+    ```
 
-example:
-```bash
-blender rosslyn.blend -P Raymobtime_visualizer.py ./s008_simulation
-```
+    A generalization of the command would be:
 
-`your_scenario` is the .blend file with the model of your city and `your_runs_folder` is the location of your Wireless InSite simulation folder data.
+    ```bash
+    blender your_scenario.blend -P Raymobtime_visualizer.py your_runs_folder
+    ```
 
-You can donwload Wireless InSite simulation folder data [Here](https://nextcloud.lasseufpa.org/s/QKPC23THnn6pez6)
+    - `your_scenario` is the .blend file with the model of your city
+    - `your_runs_folder` is the location of your Wireless InSite simulation folder data.
 
-After running the command, Blender should open with your simulation done, where each run is represented in a specific frame of the animation.
+    After running the command, Blender should open with your simulation done, where each run is represented in a specific frame of the animation.
+
+6. Some options are provided to personalize some parameters of your simulation. They are made direct in the file `raymobtime_animation.py`. Are the following:
+    - start_run (line 24) and end_run (line 25): change to fit the interval of runs that you want to simulate.
+    - useRays (line 27): True will make them visible and False will omit them.
+    - user (line 29): to select the vehicle you wanna track the channels. For example, in a simulation with 10 equiped vehicles, you could choose from 1 to 10, picking 0 will track all of them. If useRays is set to False, there'll be no difference in the simulation.
+    - rays_quantity (line 31): change to the number of channels you wanna track per pair of antennas, it'll display the best ones. It'll not do anything if useRays is set to False.
+
+[![Simulation Example](http://img.youtube.com/vi/WkIo4cGDYU4/0.jpg)](https://www.youtube.com/watch?v=WkIo4cGDYU4&feature=youtu.be)

@@ -1,4 +1,4 @@
-## Beam Selection baseline
+## Beam selection baseline
 
 This repository contains Python codes for processing raw data.
 

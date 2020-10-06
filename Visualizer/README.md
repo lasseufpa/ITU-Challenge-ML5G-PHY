@@ -9,13 +9,13 @@ It is assumed that Linux is used
 5. With everything set, you'll have to open your CLI and run the following command, supposing you're using the provided data:
 
     ```bash
-    blender rosslyn.blend -P Raymobtime_visualizer.py ./s008_simulation
+    blender rosslyn.blend -P Raymobtime_visualizer.py -- ./s008_simulation
     ```
 
     A generalization of the command would be:
 
     ```bash
-    blender your_scenario.blend -P Raymobtime_visualizer.py your_runs_folder
+    blender your_scenario.blend -P Raymobtime_visualizer.py -- your_runs_folder
     ```
 
     - `your_scenario` is the .blend file with the model of your city

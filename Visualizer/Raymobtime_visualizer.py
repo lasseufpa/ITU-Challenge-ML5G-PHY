@@ -29,19 +29,18 @@ def main():
 
     startTime = datetime.now()
     argv = sys.argv
-    if len(argv) < 5:
-        print('Please, use the following command: blender your_scenario.blend -P blender_animation.py Your_InSite_Simulation_Folder')
+    if len(argv) < 6:
+        print('Please, use the following command: blender your_scenario.blend -P blender_animation.py -- Your_InSite_Simulation_Folder')
         bpy.ops.wm.quit_blender()
         exit(-1)
     #argv = argv[argv.index("--") + 1:]
     #To indicate the input folder position
-    folder_scanned_name = argv[4]
+    folder_scanned_name = argv[5]
     #for key,scene_path in scenes_path.items():
-    frame_num = 0
     frame_step = 1
     run = start_run
     D.scenes['Scene'].frame_end = end_run
-    D.scenes['Scene'].frame_start = 0
+    D.scenes['Scene'].frame_start = start_run
     
     while run <= end_run:
         print('Processing run' + str(run) + ' ...') 
@@ -56,14 +55,13 @@ def main():
         vPosition = getInfoVehicles(sumo_info_file)
         vectorsPath= getInfoPath(path_info_file, user) 
         nVectorsPath = classifyRays(vectorsPath, rays_quantity) 
-        animateVehiclesBlender(vPosition,run,frame_step)
+        animateVehiclesBlender(vPosition,run,frame_step,start_run)
         if useRays:
             rayAnimation(nVectorsPath,run,frame_step)
             endRayAnimation(run,frame_step)
         run += 1
-        frame_num += frame_step
 
-    endAnimation(end_run)
+    endAnimation(end_run + 1)
     C.scene.frame_set(D.scenes['Scene'].frame_start)
     time_elapsed = datetime.now() - startTime
     print("Total time elapsed: " + str(time_elapsed))
@@ -258,7 +256,7 @@ def endAnimation(frame_num):
             D.objects[obj_name].keyframe_insert(data_path="hide", index=-1)
 
 #Create and position each vehicle for every frame
-def animateVehiclesBlender(vPosition,frame_num,frame_step):
+def animateVehiclesBlender(vPosition,frame_num,frame_step,frame_start):
     C.scene.frame_set(frame_num)
     # Pre processamento dos que estao na cena
     objects_in_scene = []
@@ -293,7 +291,7 @@ def animateVehiclesBlender(vPosition,frame_num,frame_step):
             veh.name = vehicles[0]
 
             # Hide vehicle in frames it's doesn't exist in
-            for i in range(0,frame_num,frame_step):
+            for i in range(frame_start,frame_num,frame_step):
                 C.scene.frame_set(i)
                 veh.hide_render = True
                 veh.hide = True

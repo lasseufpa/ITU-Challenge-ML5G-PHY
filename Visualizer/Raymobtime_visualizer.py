@@ -58,12 +58,12 @@ def main():
         nVectorsPath = classifyRays(vectorsPath, rays_quantity) 
         animateVehiclesBlender(vPosition,run,frame_step)
         if useRays:
-            rayAnimation(nVectorsPath,frame_num,frame_step)
-            endRayAnimation(frame_num,frame_step)
+            rayAnimation(nVectorsPath,run,frame_step)
+            endRayAnimation(run,frame_step)
         run += 1
         frame_num += frame_step
 
-    endAnimation(frame_num)
+    endAnimation(end_run)
     C.scene.frame_set(D.scenes['Scene'].frame_start)
     time_elapsed = datetime.now() - startTime
     print("Total time elapsed: " + str(time_elapsed))

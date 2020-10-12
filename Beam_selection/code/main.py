@@ -1,5 +1,5 @@
 #Script context use	: This script uses Raymotime data (https://www.lasse.ufpa.br/raymobtime/) in the context of the UFPA - ITU Artificial Intelligence/Machine Learning in 5G Challenge (http://ai5gchallenge.ufpa.br/).
-#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazão
+#Author       		: Ailton Oliveira, Aldebaro Klautau, Arthur Nascimento, Diego Gomes, Jamelly Ferreira, Walter Frazao
 #Email          	: ml5gphy@gmail.com                                          
 #License		: This script is distributed under "Public Domain" license.
 ###################################################################
@@ -89,17 +89,23 @@ def getBeamOutput(output_file):
     
     return y,num_classes
 
-
-parser = argparse.ArgumentParser(description='Configure the files before training the net.')
-parser.add_argument('data_folder', help='Location of the data directory', type=str)
-#TODO: limit the number of input to 3
-parser.add_argument('--input', nargs='*', default=['coord'], 
-choices = ['img', 'coord', 'lidar'],
-help='Which data to use as input. Select from: img, lidar or coord.')
-parser.add_argument('-p','--plots', 
-help='Use this parametter if you want to see the accuracy and loss plots',
-action='store_true')
-args = parser.parse_args()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Configure the files before training the net.')
+    parser.add_argument('data_folder', help='Location of the data directory', type=str)
+    #TODO: limit the number of input to 3
+    parser.add_argument('--input', nargs='*', default=['coord'], 
+    choices = ['img', 'coord', 'lidar'],
+    help='Which data to use as input. Select from: img, lidar or coord.')
+    parser.add_argument('-p','--plots', 
+    help='Use this parametter if you want to see the accuracy and loss plots',
+    action='store_true')
+    args = parser.parse_args()
+else:
+    import sys
+    sys.path.append('../submission_baseline_example/')
+    import common
+    parser = common.parser
+    args = parser.parse_args()
 
 ###############################################################################
 # Data configuration

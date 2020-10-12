@@ -104,8 +104,7 @@ else:
     import sys
     sys.path.append('../submission_baseline_example/')
     import common
-    parser = common.parser
-    args = parser.parse_args()
+    args = common.args
 
 ###############################################################################
 # Data configuration

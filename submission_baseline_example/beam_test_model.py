@@ -11,6 +11,7 @@ predictions are saved in a CSV file to be evaluated.
 import argparse
 import numpy as np
 import sys
+import os
 
 from tensorflow.keras.models import model_from_json
 from tensorflow.keras.losses import categorical_crossentropy
@@ -26,6 +27,9 @@ parser.add_argument('-p','--plots',
 help='Use this parametter if you want to see the accuracy and loss plots',
 action='store_true')
 args = parser.parse_args()
+
+# This example uses data in baseline_data folder
+args.data_folder = os.path.join(args.data_folder, 'baseline_data')
 
 def top_10_accuracy(y_true,y_pred):
     return metrics.top_k_categorical_accuracy(y_true,y_pred,k=10)
@@ -56,7 +60,7 @@ data_dir = args.data_folder+'/'
 if 'coord' in args.input: 
     ###############################################################################
     # Coordinate configuration
-    coord_input_file = data_dir+'coord_input/coord_test.npz'
+    coord_input_file = data_dir+'coord_input/coord_train.npz'
     coord_cache_file = np.load(coord_input_file)
     X_coord = coord_cache_file['coordinates']
 

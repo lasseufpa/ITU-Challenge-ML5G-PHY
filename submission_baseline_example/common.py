@@ -7,6 +7,4 @@ to main.py.
 @author: Ilan Correa <ilan@ufpa.br>
 """
 
-import argparse
-
-parser = argparse.ArgumentParser()
+args = object()

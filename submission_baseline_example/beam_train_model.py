@@ -10,6 +10,7 @@ and trains it. Then, the model and weights are saved.
 import argparse
 import sys
 import common
+import os
 
 parser = argparse.ArgumentParser(description='Configure the files before training the net.')
 parser.add_argument('data_folder', help='Location of the data directory', type=str)
@@ -21,7 +22,10 @@ help='Use this parametter if you want to see the accuracy and loss plots',
 action='store_true')
 args = parser.parse_args()
 
-common.parser = parser
+# This example uses data in baseline_data folder
+args.data_folder = os.path.join(args.data_folder, 'baseline_data')
+
+common.args = args
 
 # This example uses another example previously provided by the organization team
 # of the challenge. The module main creates and trains the model

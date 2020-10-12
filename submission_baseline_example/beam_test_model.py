@@ -60,7 +60,7 @@ data_dir = args.data_folder+'/'
 if 'coord' in args.input: 
     ###############################################################################
     # Coordinate configuration
-    coord_input_file = data_dir+'coord_input/coord_train.npz'
+    coord_input_file = data_dir+'coord_input/coord_test.npz'
     coord_cache_file = np.load(coord_input_file)
     X_coord = coord_cache_file['coordinates']
 
@@ -82,7 +82,7 @@ if 'lidar' in args.input:
     ###############################################################################
     # LIDAR configuration
     #train
-    lidar_input_file = data_dir+'lidar_input/lidar_train.npz'
+    lidar_input_file = data_dir+'lidar_input/lidar_test.npz'
     print("Reading dataset... ",lidar_input_file)
     lidar_cache_file = np.load(lidar_input_file)
     X_lidar = lidar_cache_file['input']

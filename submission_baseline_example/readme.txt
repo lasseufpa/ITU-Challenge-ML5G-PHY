@@ -1,10 +1,10 @@
 Description: The files in this folder (submission_baseline_example) present an
-example submission that uses the baseline data without customized frontend.
-This file is an example of a mandatory readme.txt required in the submission.
+example of submission that uses the baseline data without a customized frontend.
+This file is an example of a mandatory readme.txt.
 
 #### Building the environment
 
-1 - Dependencies: 
+1 - Dependencies
 
 1.1 System dependencies
 - Hardware: CUDA Capable GPU
@@ -30,7 +30,7 @@ test it as shown in 2.2. The step in 2.1 saves the model and its trained weights
 
 2.1 - Training the model
 
-python beam_train_model.py --input coord img lidar -p ~/Documents/Raymobtime_dataset/s008/baseline_data
+python beam_train_model.py --input coord img lidar -p ~/Documents/Raymobtime_dataset/s008
 
 usage: beam_train_model.py [-h]
                            [--input [{img,coord,lidar} [{img,coord,lidar} ...]]]
@@ -52,7 +52,7 @@ optional arguments:
 
 2.2 - Testing the model
 
-python beam_test_model.py --input coord img lidar -p  ~/Documents/Raymobtime_dataset/s009/baseline_data
+python beam_test_model.py --input coord img lidar -p  ~/Documents/Raymobtime_dataset/s009
 
 usage: beam_test_model.py [-h]
                           [--input [{img,coord,lidar} [{img,coord,lidar} ...]]]
@@ -71,3 +71,20 @@ optional arguments:
                         coord.
   -p, --plots           Use this parametter if you want to see the accuracy
                         and loss plots
+
+3 - Pre-trained model and weights
+
+As described in the rules of the challenge (see Google Docs link below), the
+participants must provide with the submission the trained model. Therefore, in
+this example, we also include the files my_model.json and my_model_weights.h5.
+These files are the results of running the training described in 2.1 with the
+following arguments:
+"python beam_train_model.py --input coord -p ~/Documents/Raymobtime_dataset/s008".
+
+Note that the trained model included was trained only with coordinates data,
+which allows generating my_model_weights.h5 with a small size to be provided as
+an example in this repository. To achieve better performance, the participants
+should use all the available data (coordinates, images and lidar), and upload
+their model in the submission.
+
+https://docs.google.com/document/d/1_TEpxu40E1sL5jmJVG1Qng7Giiq0qYDCSwU0Q15DPVs/edit#
